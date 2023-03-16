@@ -1,13 +1,11 @@
 import csv
-import sys
 from pathlib import Path
 
-# check if CSV file exists through a relative path
-csv_path = Path("./PyBank/Resources/budget_data.csv")
-if not csv_path.exists():
-    print(f"Path settings are different, this relative path works for me: {csv_path}")
-    print("Exiting program early.")
-    sys.exit()
+# Get Path to the csv file
+# this method appears to be the best to guarantee the file path is found
+# otherwise it depends on the current working directory: os.getcwd()
+csv_path = Path(__file__).parents[0] / "Resources/budget_data.csv"
+
 
 # open the csv file and extract the data
 with open(csv_path, "r") as csv_file:
@@ -48,10 +46,10 @@ output = f"""
 Financial Analysis
 ----------------------------
 Total Months: {total_months}
-Total: ${net_total_amount}
-Average Change: ${average_change:.2f}
-Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})
-Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})
+Total: ${net_total_amount:,}
+Average Change: ${average_change:,.2f}
+Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase:,})
+Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease:,})
 """
 
 print("")
@@ -59,6 +57,6 @@ print(output)
 print("")
 
 # save to PyBank_analysis.txt
-txt_path = Path("./PyBank/analysis/PyBank_analysis.txt")
+txt_path = Path(__file__).parents[0] / "analysis/PyBank_analysis.txt"
 with open(txt_path, "w") as txt_file:
     txt_file.write(output)

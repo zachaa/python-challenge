@@ -1,13 +1,11 @@
 import csv
-import sys
 from pathlib import Path
 
-# check if CSV file exists through a relative path
-csv_path = Path("./PyPoll/Resources/election_data.csv")
-if not csv_path.exists():
-    print(f"Path settings are different, this relative path works for me: {csv_path}")
-    print("Exiting program early.")
-    sys.exit()
+# Get Path to the csv file
+# this method appears to be the best to guarantee the file path is found
+# otherwise it depends on the current working directory: os.getcwd()
+csv_path = Path(__file__).parents[0] / "Resources/election_data.csv"
+
 
 # open the csv file and extract the data
 with open(csv_path, "r") as csv_file:
@@ -34,7 +32,7 @@ candidate_results = []
 winner = ""
 max_votes_for_candidate = max(vote_results_data.values())
 for candidate_name, vote_for_candidate in vote_results_data.items():
-    candidate_results.append(f"{candidate_name}: {vote_for_candidate/total_votes:.03%} ({vote_for_candidate})")
+    candidate_results.append(f"{candidate_name}: {vote_for_candidate/total_votes:.03%} ({vote_for_candidate:,})")
     if vote_for_candidate == max_votes_for_candidate:
         winner = candidate_name
 candidate_results_string = "\n".join(candidate_results)
@@ -42,7 +40,7 @@ candidate_results_string = "\n".join(candidate_results)
 output = f"""
 Election Results
 -------------------------
-Total Votes: {total_votes}
+Total Votes: {total_votes:,}
 -------------------------
 {candidate_results_string}
 -------------------------
@@ -55,6 +53,6 @@ print(output)
 print("")
 
 # save to PyPoll_analysis.txt
-txt_path = Path("./PyPoll/analysis/PyPoll_analysis.txt")
+txt_path = Path(__file__).parent / "analysis/PyPoll_analysis.txt"
 with open(txt_path, "w") as txt_file:
     txt_file.write(output)
