@@ -2,9 +2,7 @@ import csv
 from pathlib import Path
 
 # Get Path to the csv file
-# this method appears to be the best to guarantee the file path is found
-# otherwise it depends on the current working directory: os.getcwd()
-csv_path = Path(__file__).parents[0] / "Resources/election_data.csv"
+csv_path = Path(__file__).parent / "Resources/election_data.csv"
 
 
 # open the csv file and extract the data

@@ -2,9 +2,7 @@ import csv
 from pathlib import Path
 
 # Get Path to the csv file
-# this method appears to be the best to guarantee the file path is found
-# otherwise it depends on the current working directory: os.getcwd()
-csv_path = Path(__file__).parents[0] / "Resources/budget_data.csv"
+csv_path = Path(__file__).parent / "Resources/budget_data.csv"
 
 
 # open the csv file and extract the data
@@ -57,6 +55,6 @@ print(output)
 print("")
 
 # save to PyBank_analysis.txt
-txt_path = Path(__file__).parents[0] / "analysis/PyBank_analysis.txt"
+txt_path = Path(__file__).parent / "analysis/PyBank_analysis.txt"
 with open(txt_path, "w") as txt_file:
     txt_file.write(output)
