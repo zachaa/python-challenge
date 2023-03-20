@@ -6,7 +6,7 @@ csv_path = Path(__file__).parent / "Resources/election_data.csv"
 
 
 # open the csv file and extract the data
-with open(csv_path, "r") as csv_file:
+with open(csv_path, "r", encoding="utf8") as csv_file:
     csv_reader = csv.reader(csv_file)
 
     # save header and move to the data
@@ -25,12 +25,15 @@ with open(csv_path, "r") as csv_file:
 
 total_votes = sum(vote_results_data.values())
 
-# create a string for candidate results and find winner in the same loop
+# create a multiline string for candidate results and find winner in the same loop
 candidate_results = []
 winner = ""
 max_votes_for_candidate = max(vote_results_data.values())
 for candidate_name, vote_for_candidate in vote_results_data.items():
+    # create a string for each candidates results
     candidate_results.append(f"{candidate_name}: {vote_for_candidate/total_votes:.03%} ({vote_for_candidate:,})")
+    
+    # find the winner by comparing to max votes
     if vote_for_candidate == max_votes_for_candidate:
         winner = candidate_name
 candidate_results_string = "\n".join(candidate_results)

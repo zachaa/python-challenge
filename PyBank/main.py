@@ -6,7 +6,7 @@ csv_path = Path(__file__).parent / "Resources/budget_data.csv"
 
 
 # open the csv file and extract the data
-with open(csv_path, "r") as csv_file:
+with open(csv_path, "r", encoding="utf8") as csv_file:
     csv_reader = csv.reader(csv_file)
 
     # save header and move to the data
@@ -32,11 +32,12 @@ average_change = sum(change_in_p_l)/len(change_in_p_l)
 greatest_increase = max(change_in_p_l)
 greatest_decrease = min(change_in_p_l)
 
+# find the indexes in the `change_in_p_l` list where the greatest changes are located
 index_of_max = change_in_p_l.index(greatest_increase)
 index_of_min = change_in_p_l.index(greatest_decrease)
 
 # use the indexes from above to get the month of the increase
-# use + 1 because the first month has no data
+# use + 1 because the first month has no data and is not part of the `change_in_p_l` list
 greatest_increase_date = date_data[index_of_max + 1]
 greatest_decrease_date = date_data[index_of_min + 1]
 
